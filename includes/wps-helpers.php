@@ -1,6 +1,8 @@
 <?php
 /**
  * Helper Functions
+ *
+ * Modified by HackIndex on 2026-10-29: security fixes. Fork of https://github.com/MyThemeShop/wp-subscribe-by-mythemeshop
  */
 
 // Exit if accessed directly
@@ -208,7 +210,7 @@ function wps_field_hidden( $args = array() ) {
 
 	extract( $args );
 	?>
-	<input id="<?php echo esc_attr( $id ) ?>" name="<?php echo esc_attr( $name ) ?>" type="hidden" value="<?php echo esc_attr( $value ) ?>"<?php if( isset( $data_id ) ) { printf( 'data-id="%s"', $data_id ); } ?>>
+	<input id="<?php echo esc_attr( $id ) ?>" name="<?php echo esc_attr( $name ) ?>" type="hidden" value="<?php echo esc_attr( $value ) ?>"<?php if( isset( $data_id ) ) { printf( 'data-id="%s"', esc_attr( $data_id ) ); } ?>>
 	<?php
 }
 

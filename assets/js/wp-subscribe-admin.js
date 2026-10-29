@@ -4,6 +4,8 @@ Plugin URI: http://mythemeshop.com/plugins/wp-subscribe-pro/
 Description: WP Subscribe is a simple but powerful subscription plugin which supports MailChimp, Aweber and Feedburner.
 Author: MyThemeShop
 Author URI: http://mythemeshop.com/
+
+Modified by HackIndex on 2026-10-29: security fixes. Fork of https://github.com/MyThemeShop/wp-subscribe-by-mythemeshop
 */
 
 ( function( $ ){
@@ -94,6 +96,7 @@ Author URI: http://mythemeshop.com/
 			method: 'post',
 			data: {
 				action: 'wps_get_service_list',
+				nonce: wp_subscribe_admin.nonce,
 				service: service,
 				args: args
 			},
@@ -104,7 +107,7 @@ Author URI: http://mythemeshop.com/
 					var sel = select.val();
 					select.html( '<option value="none">Select List</option>' );
 					$.each( response.lists, function( key, val ){
-						select.append('<option value="'+ key +'">'+ val +'</option>');
+						select.append( $( '<option>' ).val( key ).text( val ) );
 					});
 					select.val(sel);
 				}
@@ -133,6 +136,7 @@ Author URI: http://mythemeshop.com/
 			type: 'POST',
 			data: {
 				action: 'connect_aweber',
+				nonce: wp_subscribe_admin.nonce,
 				aweber_code: code
 			}
 

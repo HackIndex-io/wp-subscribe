@@ -1,6 +1,8 @@
 <?php
 /**
  * MailChimp Subscription
+ *
+ * Modified by HackIndex on 2026-10-29: security fixes. Fork of https://github.com/MyThemeShop/wp-subscribe-by-mythemeshop
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -10,6 +12,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 class WPS_Subscription_MailChimp extends WPS_Subscription_Base {
 
 	public function init( $api_key ) {
+
+		// The part after the dash becomes the API hostname, so only allow a real data center like us6
+		if ( ! is_string( $api_key ) || ! preg_match( '/^[^-]+-[a-z]+[0-9]+$/i', $api_key ) ) {
+			throw new Exception( esc_html__( 'Invalid MailChimp API key.', 'wp-subscribe' ) );
+		}
 
 		require_once 'libs/mailchimp.php';
 		return new MailChimp( $api_key );

@@ -1,12 +1,16 @@
 <?php
 /**
- * Plugin Name: WP Subscribe
+ * Plugin Name: WP Subscribe (HackIndex Patched)
  * Plugin URI: http://mythemeshop.com/plugins/wp-subscribe/
- * Description: WP Subscribe is a simple but powerful subscription plugin which supports MailChimp, Aweber and Feedburner.
- * Version: 1.2.16
+ * Description: WP Subscribe is a simple but powerful subscription plugin which supports MailChimp, Aweber and Feedburner. (HackIndex Patched)
+ * Version: 1.2.17
  * Author: MyThemeShop
  * Author URI: http://mythemeshop.com/
  * Text Domain: wp-subscribe
+ * License: GPLv2 or later
+ * License URI: http://www.gnu.org/licenses/gpl-2.0.html
+ *
+ * Modified by HackIndex on 2026-10-29: security fixes. Fork of https://github.com/MyThemeShop/wp-subscribe-by-mythemeshop
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -27,7 +31,7 @@ if( ! class_exists('MTS_WP_Subscribe') ) :
 		 * Plugin Version
 		 * @var string
 		 */
-		private $version = '1.2.16';
+		private $version = '1.2.17';
 
 		/**
 		 * Hold an instance of MTS_WP_Subscribe class
@@ -206,7 +210,18 @@ if( ! class_exists('MTS_WP_Subscribe') ) :
 			load_plugin_textdomain( 'wp-subscribe', false, $this->plugin_dir() . '/languages' );
 		}
 
+		private function check_admin_ajax() {
+			if ( ! check_ajax_referer( 'wps_admin_ajax', 'nonce', false ) || ! current_user_can( 'edit_theme_options' ) ) {
+				wp_send_json( array(
+					'success' => false,
+					'error' => esc_html__( 'Not permitted.', 'wp-subscribe' )
+				) );
+			}
+		}
+
 		public function connect_aweber() {
+
+			$this->check_admin_ajax();
 
 			// check for data
 			$aweber_code = isset( $_REQUEST['aweber_code'] ) ? sanitize_textarea_field( $_REQUEST['aweber_code'] ) : '';
@@ -298,8 +313,10 @@ if( ! class_exists('MTS_WP_Subscribe') ) :
 		 */
 		public function get_service_list() {
 
+			$this->check_admin_ajax();
+
 			$name = isset( $_REQUEST['service'] ) ? sanitize_text_field( $_REQUEST['service'] ) : '';
-			$args = isset( $_REQUEST['args'] ) ? array_map( 'sanitize_text_field', $_REQUEST['args'] ) : array();
+			$args = isset( $_REQUEST['args'] ) && is_array( $_REQUEST['args'] ) ? array_map( 'sanitize_text_field', $_REQUEST['args'] ) : array();
 
 			if( empty( $name ) || empty( $args ) ) {
 				wp_send_json(array(
@@ -319,7 +336,8 @@ if( ! class_exists('MTS_WP_Subscribe') ) :
 
 			try {
 				$args['raw'] = $args;
-				$lists = call_user_func_array( array( $service, 'get_lists' ), $args );
+				// PHP 8 treats string keys as named arguments, which breaks this call
+				$lists = call_user_func_array( array( $service, 'get_lists' ), array_values( $args ) );
 			}
 			catch( Exception $e ) {
 				wp_send_json(array(

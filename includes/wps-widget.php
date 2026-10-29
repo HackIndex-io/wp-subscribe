@@ -2,6 +2,8 @@
 
 /**
  * The WP Subscribe widget class
+ *
+ * Modified by HackIndex on 2026-10-29: security fixes. Fork of https://github.com/MyThemeShop/wp-subscribe-by-mythemeshop
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -87,6 +89,9 @@ class wp_subscribe extends WP_Widget {
 		}
 
 		wp_enqueue_script( 'wp-subscribe-admin', wps()->plugin_url() . '/assets/js/wp-subscribe-admin.js', array( 'jquery' ) );
+		wp_localize_script( 'wp-subscribe-admin', 'wp_subscribe_admin', array(
+			'nonce' => wp_create_nonce( 'wps_admin_ajax' )
+		) );
 	}
 
 	/**
