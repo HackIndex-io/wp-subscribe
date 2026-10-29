@@ -1,16 +1,26 @@
-=== WP Subscribe ===
-Contributors: mythemeshop
+=== WP Subscribe (HackIndex Patched) ===
+Contributors: mythemeshop, joshuavanderpoll
 Creator's website link: http://mythemeshop.com/plugins/wp-subscribe/
 Tags: subscribe, subscription, subscription box, newsletter, subscribe widget, mailchimp, aweber, feedburner,
 Requires at least: 4.0
-Tested up to: 5.9.3
-Stable tag: 1.2.16
+Tested up to: 7.1
+Stable tag: 1.2.17
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-WP Subscribe is a simple but powerful subscription plugin which supports MailChimp, Aweber and Feedburner.
+WP Subscribe is a simple but powerful subscription plugin which supports MailChimp, Aweber and Feedburner. (HackIndex Patched)
 
 == Description ==
+
+= HackIndex Patched fork =
+This is an unofficial fork of WP Subscribe by MyThemeShop. The original plugin is no longer maintained and its latest release (1.2.16) has a [known vulnerability](https://www.wordfence.com/threat-intel/vulnerabilities/id/83a7e451-6d8f-48aa-9774-46e3d4434330). HackIndex maintains this fork for security fixes only.
+
+* We fix security issues and keep the plugin working on current WordPress and PHP versions. We do not add features or change how the plugin works.
+* It is a drop-in replacement: your widgets, settings, MailChimp and AWeber connections from the original plugin keep working.
+* HackIndex is not affiliated with or endorsed by MyThemeShop. Please do not contact MyThemeShop for support with this fork, open an issue on the fork instead.
+* Original plugin: [WordPress.org](https://wordpress.org/plugins/wp-subscribe/) and [GitHub](https://github.com/MyThemeShop/wp-subscribe-by-mythemeshop) by MyThemeShop.
+* HackIndex fork and issues: [github.com/HackIndex-io/wp-subscribe](https://github.com/HackIndex-io/wp-subscribe)
+* Licensed under the GPLv2 or later, like the original, and provided without any warranty.
 
 If you aren’t building an email list, you’re missing out on the most powerful and consistent way to drive repeat visitors and customers to your website or blog. With an email list, you become less and less dependent on external sources of traffic, and gain more ability to interact with your blog’s audience.
 
@@ -81,6 +91,13 @@ Please disable all plugins and check if plugin is working properly. Then you can
 2. WP Subscribe Settings
 
 == Changelog ==
+
+= 1.2.17 =
+* Security: fixed Subscriber+ Missing Authorization ([CVE-2026-24522](https://www.cve.org/CVERecord?id=CVE-2026-24522), [Wordfence advisory](https://www.wordfence.com/threat-intel/vulnerabilities/id/83a7e451-6d8f-48aa-9774-46e3d4434330)): fetching mailing lists and connecting AWeber now require the edit_theme_options capability and a nonce
+* Security: only allow a valid MailChimp data center in the API key, so the key can't point requests at another host (SSRF)
+* Security: escaped mailing list names in the widget settings and a hidden field attribute
+* Fixed "Get list" and AWeber errors on PHP 8
+* Tested with WordPress 7.1 and PHP 8.5
 
 = 1.2.16 =
 * More security hardening
