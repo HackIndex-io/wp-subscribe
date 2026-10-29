@@ -1,4 +1,5 @@
 <?php
+// Modified by HackIndex on 2026-10-29: PHP 8 compatibility. Fork of https://github.com/MyThemeShop/wp-subscribe-by-mythemeshop
 
 if( ! class_exists('AWeberEntryDataArray') ) :
 
@@ -17,44 +18,54 @@ class AWeberEntryDataArray implements ArrayAccess, Countable, Iterator  {
         $this->parent = $parent;
     }
 
+    #[\ReturnTypeWillChange]
     public function count() {
         return sizeOf($this->data);
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetExists($offset) {
         return (isset($this->data[$offset]));
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset) {
         return $this->data[$offset];
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value) {
         $this->data[$offset] = $value;
         $this->parent->{$this->name} = $this->data;
         return $value;
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetUnset($offset) {
         unset($this->data[$offset]);
     }
 
+    #[\ReturnTypeWillChange]
     public function rewind() {
         $this->counter = 0;
     }
 
+    #[\ReturnTypeWillChange]
     public function current() {
         return $this->data[$this->key()];
     }
 
+    #[\ReturnTypeWillChange]
     public function key() {
         return $this->keys[$this->counter];
     }
 
+    #[\ReturnTypeWillChange]
     public function next() {
         $this->counter++;
     }
 
+    #[\ReturnTypeWillChange]
     public function valid() {
         if ($this->counter >= sizeOf($this->data)) {
             return false;

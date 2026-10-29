@@ -1,6 +1,8 @@
 <?php
 /**
  * Aweber Subscription
+ *
+ * Modified by HackIndex on 2026-10-29: security fixes. Fork of https://github.com/MyThemeShop/wp-subscribe-by-mythemeshop
  */
 
  if ( ! defined( 'ABSPATH' ) ) {
@@ -54,11 +56,7 @@ class WPS_Subscription_Aweber extends WPS_Subscription_Base {
 			return $this->credentials;
 		}
 
-		$credentials = array_filter( $credentials );
-
-		if ( empty( $credentials ) ) {
-			$credentials = get_option( $this->key );
-		}
+		$credentials = get_option( $this->key );
 
 		$this->credentials = empty( $credentials ) ? null : $credentials;
 
@@ -112,7 +110,8 @@ class WPS_Subscription_Aweber extends WPS_Subscription_Base {
 
 	public function get_lists() {
 
-		$this->credentials = end( func_get_args() );
+		$args = func_get_args();
+		$this->credentials = end( $args );
 		$account = $this->get_account();
 
         $lists = array();

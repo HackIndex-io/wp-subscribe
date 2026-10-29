@@ -1,4 +1,5 @@
 <?php
+// Modified by HackIndex on 2026-10-29: PHP 8 compatibility. Fork of https://github.com/MyThemeShop/wp-subscribe-by-mythemeshop
 if ( ! class_exists('CurlObject') ) require_once( 'curl_object.php' );
 if ( ! class_exists('CurlResponse') ) require_once( 'curl_response.php' );
 
@@ -82,6 +83,7 @@ class OAuthApplication implements AWeberOAuthAdapter {
     // as a proxy for
     public $consumerKey = false;
     public $consumerSecret = false;
+    public $app;
 
     /**
      * __construct

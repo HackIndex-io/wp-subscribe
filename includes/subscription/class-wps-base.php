@@ -1,6 +1,8 @@
 <?php
 /**
  * A class for subscription services
+ *
+ * Modified by HackIndex on 2026-10-29: PHP 8 compatibility. Fork of https://github.com/MyThemeShop/wp-subscribe-by-mythemeshop
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -20,6 +22,8 @@ abstract class WPS_Subscription_Base {
 	 * @var array
 	 */
 	public $options;
+
+	public $instance;
 
 	/**
 	 * The Constructor

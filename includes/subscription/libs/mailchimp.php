@@ -6,6 +6,8 @@
  *
  * @author Drew McLellan <drew.mclellan@gmail.com>
  * @version 2.2
+ *
+ * Modified by HackIndex on 2026-10-29: PHP 8 compatibility. Fork of https://github.com/MyThemeShop/wp-subscribe-by-mythemeshop
  */
 
 if( ! class_exists('MailChimp') ):
@@ -220,7 +222,10 @@ class MailChimp {
             $this->last_error = curl_error($ch);
         }
 
-        curl_close($ch);
+        // curl_close() does nothing since PHP 8.0 and is deprecated in 8.5
+        if (PHP_VERSION_ID < 80000) {
+            curl_close($ch);
+        }
 
         $formattedResponse = $this->formatResponse($response);
 

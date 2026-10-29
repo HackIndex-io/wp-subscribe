@@ -1,4 +1,5 @@
 <?php
+// Modified by HackIndex on 2026-10-29: PHP 8 compatibility. Fork of https://github.com/MyThemeShop/wp-subscribe-by-mythemeshop
 
 if( ! class_exists('AWeberCollection') ) :
 
@@ -163,8 +164,11 @@ if( ! class_exists('AWeberCollection') ) :
 	     * http://php.net/manual/en/class.arrayaccess.php
 	     */
 
+	    #[\ReturnTypeWillChange]
 	    public function offsetSet($offset, $value)  {}
+	    #[\ReturnTypeWillChange]
 	    public function offsetUnset($offset)        {}
+	    #[\ReturnTypeWillChange]
 	    public function offsetExists($offset) {
 
 	        if ($offset >=0 && $offset < $this->total_size) {
@@ -213,6 +217,7 @@ if( ! class_exists('AWeberCollection') ) :
 	        }
 	    }
 
+	    #[\ReturnTypeWillChange]
 	    public function offsetGet($offset) {
 
 	        if (!$this->offsetExists($offset)) {
@@ -239,22 +244,27 @@ if( ! class_exists('AWeberCollection') ) :
 	     */
 	    protected $_iterationKey = 0;
 
+	    #[\ReturnTypeWillChange]
 	    public function current() {
 	        return $this->offsetGet($this->_iterationKey);
 	    }
 
+	    #[\ReturnTypeWillChange]
 	    public function key() {
 	        return $this->_iterationKey;
 	    }
 
+	    #[\ReturnTypeWillChange]
 	    public function next() {
 	        $this->_iterationKey++;
 	    }
 
+	    #[\ReturnTypeWillChange]
 	    public function rewind() {
 	        $this->_iterationKey = 0;
 	    }
 
+	    #[\ReturnTypeWillChange]
 	    public function valid() {
 	        return $this->offsetExists($this->key());
 	    }
@@ -265,6 +275,7 @@ if( ! class_exists('AWeberCollection') ) :
 	     * http://www.php.net/manual/en/class.countable.php
 	     */
 
+	    #[\ReturnTypeWillChange]
 	    public function count() {
 	        return $this->total_size;
 	    }
